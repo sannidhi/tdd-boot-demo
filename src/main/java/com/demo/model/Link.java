@@ -14,4 +14,8 @@ public class Link {
         this.shortUrl = shortUrl;
         this.fullUrl = fullUrl;
     }
+
+    public String getShortUrl() {
+        return shortUrl;
+    }
 }

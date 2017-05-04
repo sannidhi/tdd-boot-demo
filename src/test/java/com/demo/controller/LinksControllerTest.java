@@ -1,7 +1,7 @@
 package com.demo.controller;
 
-import com.demo.UrlShortener;
 import com.demo.model.Link;
+import com.demo.service.UrlShortener;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

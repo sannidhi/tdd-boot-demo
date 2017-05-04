@@ -1,7 +1,7 @@
 package com.demo.controller;
 
-import com.demo.UrlShortener;
 import com.demo.model.Link;
+import com.demo.service.UrlShortener;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
