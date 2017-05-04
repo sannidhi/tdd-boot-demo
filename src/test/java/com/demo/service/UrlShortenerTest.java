@@ -40,4 +40,14 @@ public class UrlShortenerTest {
 
         verify(linkRepository).findByFullUrl(anyString());
     }
+
+    @Test
+    public void shorten_shouldShortenUrl_whenLookupFails() throws Exception {
+        when(linkRepository.findByFullUrl(anyString())).thenReturn(null);
+
+        Link link = urlShortener.shorten(LONG_URL);
+
+        verify(linkRepository).findByFullUrl(anyString());
+        verify(linkRepository).save(link);
+    }
 }
