@@ -7,11 +7,10 @@ public class UrlShortener {
     private LinkRepository linkRepository;
 
     public UrlShortener(LinkRepository linkRepository) {
-
         this.linkRepository = linkRepository;
     }
 
-    public Link shorten(String shortUrl) {
-        return null;
+    public Link shorten(String fullUrl) {
+        return linkRepository.findByFullUrl(fullUrl);
     }
 }
