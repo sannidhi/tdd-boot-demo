@@ -15,6 +15,10 @@ public class Link {
     @JsonProperty("full_url")
     private String fullUrl;
 
+    public Link() {
+        // for hibernate
+    }
+
     public Link(String shortUrl, String fullUrl) {
         this.shortUrl = shortUrl;
         this.fullUrl = fullUrl;
