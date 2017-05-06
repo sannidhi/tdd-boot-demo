@@ -3,6 +3,7 @@ package com.demo.service;
 import com.demo.model.Link;
 import com.demo.repository.LinkRepository;
 import com.google.common.hash.Hashing;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -25,6 +26,7 @@ public class UrlShortener {
         return link;
     }
 
+    @Cacheable("link")
     public Link expand(String shortUrl) {
         return linkRepository.findByShortUrl(shortUrl);
     }
