@@ -3,11 +3,13 @@ package com.demo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class Link {
 
     @JsonProperty("short_url")
+    @Id
     private String shortUrl;
 
     @JsonProperty("full_url")
