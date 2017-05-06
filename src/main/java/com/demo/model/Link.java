@@ -2,6 +2,9 @@ package com.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Link {
 
     @JsonProperty("short_url")
