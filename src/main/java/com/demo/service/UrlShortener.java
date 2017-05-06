@@ -3,9 +3,11 @@ package com.demo.service;
 import com.demo.model.Link;
 import com.demo.repository.LinkRepository;
 import com.google.common.hash.Hashing;
+import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 
+@Service
 public class UrlShortener {
     private LinkRepository linkRepository;
 
