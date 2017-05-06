@@ -22,4 +22,10 @@ public class LinksController {
     public Link shorten (@RequestParam("fullUrl") String fullUrl) {
         return urlShortener.shorten(fullUrl);
     }
+
+    @GetMapping("expand")
+    @ResponseStatus(value = HttpStatus.OK)
+    public Link expand (@RequestParam("shortUrl") String shortUrl) {
+        return urlShortener.expand(shortUrl);
+    }
 }

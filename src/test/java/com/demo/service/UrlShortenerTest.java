@@ -50,4 +50,15 @@ public class UrlShortenerTest {
         verify(linkRepository).findByFullUrl(anyString());
         verify(linkRepository).save(link);
     }
+
+    @Test
+    public void expand_shouldFetchCachedFullUrl() {
+        when(linkRepository.findByShortUrl(SHORT_URL)).thenReturn(LINK);
+
+        Link link = urlShortener.expand(SHORT_URL);
+
+        assertThat(link).isEqualTo(LINK);
+        verify(linkRepository).findByShortUrl(SHORT_URL);
+    }
+
 }

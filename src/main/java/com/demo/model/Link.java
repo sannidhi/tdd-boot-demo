@@ -27,4 +27,8 @@ public class Link {
     public String getShortUrl() {
         return shortUrl;
     }
+
+    public String getFullUrl() {
+        return fullUrl;
+    }
 }

@@ -34,4 +34,12 @@ public class LinkRepositoryTest {
         assertThat(foundLink).isNotNull();
         assertThat(foundLink.getShortUrl()).isEqualTo(SHORT_URL);
     }
+
+    @Test
+    public void findByShortUrl_shouldFetchUrlMatch() {
+        linkRepository.save(new Link(SHORT_URL, FULL_URL));
+        Link foundLink = linkRepository.findByShortUrl(SHORT_URL);
+        assertThat(foundLink).isNotNull();
+        assertThat(foundLink.getFullUrl()).isEqualTo(FULL_URL);
+    }
 }

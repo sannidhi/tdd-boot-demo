@@ -14,8 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @RunWith(SpringRunner.class)
@@ -47,6 +46,16 @@ public class LinksControllerTest {
         result.andExpect(status().isCreated())
                 .andExpect(jsonPath("short_url").value(SHORT_URL))
                 .andExpect(jsonPath("full_url").value(FULL_URL));
+    }
+
+    @Test
+    public void expand_returnsLongUrl() throws Exception {
+        when(urlShortener.expand(SHORT_URL)).thenReturn(mockLink);
+        String jsonResponse = "{\"short_url\":\"abc123\",\"full_url\":\"http://www.averylongurl.com\"}";
+
+        mvc.perform(get("/expand").param("shortUrl",SHORT_URL))
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonResponse));
     }
 }
 

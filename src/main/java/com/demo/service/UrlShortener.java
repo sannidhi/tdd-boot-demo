@@ -24,4 +24,8 @@ public class UrlShortener {
         }
         return link;
     }
+
+    public Link expand(String shortUrl) {
+        return linkRepository.findByShortUrl(shortUrl);
+    }
 }

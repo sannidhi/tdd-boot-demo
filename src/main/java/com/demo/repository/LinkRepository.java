@@ -9,4 +9,6 @@ public interface LinkRepository extends CrudRepository<Link, String> {
     Link findByFullUrl(String fullUrl);
 
     Link save(Link link);
+
+    Link findByShortUrl(String shortUrl);
 }
