@@ -1,4 +1,4 @@
-package com.demo;
+package com.demo.integration;
 
 import com.demo.controller.LinksController;
 import com.demo.model.Link;
@@ -23,18 +23,26 @@ public class IntegrationTest {
     @Autowired
     private LinkRepository linkRepository;
 
+
+
     @After
     public void tearDown() throws Exception {
         linkRepository.deleteAll();
     }
 
     @Test
-    public void shortenUrl() {
+    public void shortensUrl_andUpdatesClickCountOnExpand() {
         String FULL_URL = "http://verylongUrl.com";
         Link shortenedLink = linksController.shorten(FULL_URL);
 
         assertThat(shortenedLink).isNotNull();
-        String shortUrl = linkRepository.findByFullUrl(FULL_URL).getShortUrl();
-        assertThat(shortUrl.length()).isLessThan(FULL_URL.length());
+        String shortenedUrl = linkRepository.findByFullUrl(FULL_URL).getShortUrl();
+        assertThat(shortenedUrl.length()).isLessThan(FULL_URL.length());
+
+        Link expandedLink = linksController.expand(shortenedUrl);
+
+        assertThat(expandedLink.getFullUrl()).isEqualTo(FULL_URL);
+
+        assertThat(linkRepository.findByShortUrl(shortenedUrl).getClickCount()).isEqualTo(1);
     }
 }

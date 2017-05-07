@@ -1,5 +1,6 @@
 package com.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ public class Link {
     @JsonProperty("full_url")
     private String fullUrl;
 
+    @JsonIgnore
     private int clickCount;
 
     public Link() {
