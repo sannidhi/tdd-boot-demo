@@ -15,7 +15,6 @@ public class Link {
     @JsonProperty("full_url")
     private String fullUrl;
 
-    @JsonProperty("click_count")
     private int clickCount;
 
     public Link() {
