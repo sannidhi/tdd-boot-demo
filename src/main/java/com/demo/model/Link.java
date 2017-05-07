@@ -15,6 +15,9 @@ public class Link {
     @JsonProperty("full_url")
     private String fullUrl;
 
+    @JsonProperty("click_count")
+    private int clickCount;
+
     public Link() {
         // for hibernate
     }
@@ -24,11 +27,21 @@ public class Link {
         this.fullUrl = fullUrl;
     }
 
+    public Link(String shortUrl, String fullUrl, int clickCount) {
+        this.shortUrl = shortUrl;
+        this.fullUrl = fullUrl;
+        this.clickCount = clickCount;
+    }
+
     public String getShortUrl() {
         return shortUrl;
     }
 
     public String getFullUrl() {
         return fullUrl;
+    }
+
+    public int getClickCount() {
+        return clickCount;
     }
 }

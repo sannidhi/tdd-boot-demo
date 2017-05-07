@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,6 +20,9 @@ public class LinkRepositoryTest {
 
     @Autowired
     private LinkRepository linkRepository;
+
+    @Autowired
+    private TestEntityManager entityManager;
 
     @After
     public void tearDown() throws Exception {
@@ -41,5 +45,16 @@ public class LinkRepositoryTest {
         Link foundLink = linkRepository.findByShortUrl(SHORT_URL);
         assertThat(foundLink).isNotNull();
         assertThat(foundLink.getFullUrl()).isEqualTo(FULL_URL);
+    }
+
+    @Test
+    public void updateClickCount_shouldIncreaseClickCountForUrl() {
+        linkRepository.save(new Link(SHORT_URL, FULL_URL, 1));
+        entityManager.flush();
+
+        linkRepository.incrementClickCountByOne(SHORT_URL);
+
+        Link updated = this.entityManager.persistFlushFind(linkRepository.findOne(SHORT_URL));
+        assertThat(updated.getClickCount()).isEqualTo(2);
     }
 }
