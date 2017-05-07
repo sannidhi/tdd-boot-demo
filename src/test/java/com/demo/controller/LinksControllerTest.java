@@ -1,9 +1,11 @@
 package com.demo.controller;
 
+import com.demo.Application;
 import com.demo.model.Link;
 import com.demo.service.UrlShortener;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -12,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -33,6 +36,9 @@ public class LinksControllerTest {
 
     @MockBean
     private UrlShortener urlShortener;
+
+    @MockBean
+    private RabbitTemplate rabbitTemplate;
 
     @Test
     public void shorten_createsShortUrl() throws Exception {
@@ -56,6 +62,13 @@ public class LinksControllerTest {
         mvc.perform(get("/expand").param("shortUrl",SHORT_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().json(jsonResponse));
+    }
+
+    @Test
+    public void expand_pushesClickUpdateEvent() {
+        linksController.expand(SHORT_URL);
+
+        verify(rabbitTemplate).convertAndSend(Application.QUEUE, SHORT_URL);
     }
 }
 
