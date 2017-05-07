@@ -11,4 +11,6 @@ public interface LinkRepository extends CrudRepository<Link, String> {
     Link save(Link link);
 
     Link findByShortUrl(String shortUrl);
+
+    Link incrementClickCountByOne(String shortUrl);
 }
