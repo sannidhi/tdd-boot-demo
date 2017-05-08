@@ -23,8 +23,6 @@ public class IntegrationTest {
     @Autowired
     private LinkRepository linkRepository;
 
-
-
     @After
     public void tearDown() throws Exception {
         linkRepository.deleteAll();
@@ -42,7 +40,8 @@ public class IntegrationTest {
         Link expandedLink = linksController.expand(shortenedUrl);
 
         assertThat(expandedLink.getFullUrl()).isEqualTo(FULL_URL);
+        Link updatedLink = linkRepository.findOne(shortenedUrl);  //forces hibernate to not lookup in cache
+        assertThat(updatedLink.getClickCount()).isEqualTo(1);
 
-        assertThat(linkRepository.findByShortUrl(shortenedUrl).getClickCount()).isEqualTo(1);
     }
 }

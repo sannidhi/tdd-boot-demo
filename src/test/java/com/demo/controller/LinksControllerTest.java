@@ -1,6 +1,7 @@
 package com.demo.controller;
 
 import com.demo.Application;
+import com.demo.messaging.MessageReceiver;
 import com.demo.model.Link;
 import com.demo.service.UrlShortener;
 import org.junit.Test;
@@ -39,6 +40,9 @@ public class LinksControllerTest {
 
     @MockBean
     private RabbitTemplate rabbitTemplate;
+
+    @MockBean
+    private MessageReceiver messageReceiver;
 
     @Test
     public void shorten_createsShortUrl() throws Exception {
