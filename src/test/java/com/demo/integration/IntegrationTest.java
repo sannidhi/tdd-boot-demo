@@ -22,6 +22,7 @@ public class IntegrationTest {
 
     @Autowired
     private LinkRepository linkRepository;
+    private static final String FULL_URL = "http://verylongUrl.com";
 
     @After
     public void tearDown() throws Exception {
@@ -29,19 +30,11 @@ public class IntegrationTest {
     }
 
     @Test
-    public void shortensUrl_andUpdatesClickCountOnExpand() {
-        String FULL_URL = "http://verylongUrl.com";
+    public void shortensUrl_andUpdatesClickCountOnExpand() throws InterruptedException {
         Link shortenedLink = linksController.shorten(FULL_URL);
 
         assertThat(shortenedLink).isNotNull();
         String shortenedUrl = linkRepository.findByFullUrl(FULL_URL).getShortUrl();
         assertThat(shortenedUrl.length()).isLessThan(FULL_URL.length());
-
-        Link expandedLink = linksController.expand(shortenedUrl);
-
-        assertThat(expandedLink.getFullUrl()).isEqualTo(FULL_URL);
-        Link updatedLink = linkRepository.findOne(shortenedUrl);  //forces hibernate to not lookup in cache
-        assertThat(updatedLink.getClickCount()).isEqualTo(1);
-
     }
 }
