@@ -10,7 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.concurrent.Callable;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @RunWith(SpringRunner.class)
@@ -36,5 +40,13 @@ public class IntegrationTest {
         assertThat(shortenedLink).isNotNull();
         String shortenedUrl = linkRepository.findByFullUrl(FULL_URL).getShortUrl();
         assertThat(shortenedUrl.length()).isLessThan(FULL_URL.length());
+        Link expandedLink = linksController.expand(shortenedUrl);
+
+        assertThat(expandedLink.getFullUrl()).isEqualTo(FULL_URL);
+        await().until(clickCountFor(shortenedUrl), equalTo(1));
+    }
+
+    private Callable<Integer> clickCountFor(String shortenedUrl) {
+        return () -> linkRepository.findOne(shortenedUrl).getClickCount();
     }
 }

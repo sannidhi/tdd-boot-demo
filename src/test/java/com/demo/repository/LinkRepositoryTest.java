@@ -1,6 +1,5 @@
 package com.demo.repository;
 
-import com.demo.messaging.MessageReceiver;
 import com.demo.model.Link;
 import org.junit.After;
 import org.junit.Test;
@@ -8,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,9 +23,6 @@ public class LinkRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
-
-    @MockBean
-    private MessageReceiver messageReceiver;
 
     @After
     public void tearDown() throws Exception {

@@ -1,7 +1,5 @@
 package com.demo.controller;
 
-import com.demo.Application;
-import com.demo.messaging.MessageReceiver;
 import com.demo.model.Link;
 import com.demo.service.UrlShortener;
 import org.junit.Test;
@@ -14,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.demo.messaging.MessageReceiver.QUEUE;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,9 +39,6 @@ public class LinksControllerTest {
 
     @MockBean
     private RabbitTemplate rabbitTemplate;
-
-    @MockBean
-    private MessageReceiver messageReceiver;
 
     @Test
     public void shorten_createsShortUrl() throws Exception {
@@ -72,7 +68,7 @@ public class LinksControllerTest {
     public void expand_pushesClickUpdateEvent() {
         linksController.expand(SHORT_URL);
 
-        verify(rabbitTemplate).convertAndSend(Application.QUEUE, SHORT_URL);
+        verify(rabbitTemplate).convertAndSend(QUEUE, SHORT_URL);
     }
 }
 

@@ -19,7 +19,7 @@ public class Link {
     @JsonIgnore
     private int clickCount;
 
-    public Link() {
+    protected Link() {
         // for hibernate
     }
 

@@ -1,6 +1,5 @@
 package com.demo.controller;
 
-import com.demo.Application;
 import com.demo.model.Link;
 import com.demo.service.UrlShortener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -9,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.demo.messaging.MessageReceiver.QUEUE;
 
 @RestController
 public class LinksController {
@@ -30,7 +31,7 @@ public class LinksController {
     @GetMapping("expand")
     @ResponseStatus(value = HttpStatus.OK)
     public Link expand (@RequestParam("shortUrl") String shortUrl) {
-        rabbitTemplate.convertAndSend(Application.QUEUE, shortUrl);
+        rabbitTemplate.convertAndSend(QUEUE, shortUrl);
         return urlShortener.expand(shortUrl);
     }
 }
