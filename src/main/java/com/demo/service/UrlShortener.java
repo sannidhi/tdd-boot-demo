@@ -19,7 +19,7 @@ public class UrlShortener {
     public Link shorten(String fullUrl) {
         Link link = linkRepository.findByFullUrl(fullUrl);
         if(link == null) {
-            String shortUrl = Hashing.murmur3_32().hashString(fullUrl, StandardCharsets.UTF_8).toString().concat(".ly");
+            String shortUrl = Hashing.murmur3_32().hashString(fullUrl, StandardCharsets.UTF_8).toString();
             link = new Link(shortUrl, fullUrl);
             linkRepository.save(link);
         }
